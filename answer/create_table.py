@@ -36,27 +36,7 @@ def create_table(table_name, partition_key, sort_key, dynamodb=None):
                 'ReadCapacityUnits': 5,
                 'WriteCapacityUnits': 10
             },
-            GlobalSecondaryIndexes=[
-                {
-                    'IndexName': 'inverted-index',
-                    'KeySchema': [
-                        {
-                            'AttributeName': sort_key, 'KeyType': 'HASH'
-                        },
-                        {
-                            'AttributeName': partition_key,
-                            'KeyType': 'RANGE'
-                        }
-                    ],
-                    'Projection': {
-                        'ProjectionType': 'INCLUDE',
-                        'NonKeyAttributes': ['quantity', 'price', 'status', 'product_name', 'date']
-                    },
-                    'ProvisionedThroughput': {
-                        'ReadCapacityUnits': 5,
-                        'WriteCapacityUnits': 10
-                    }
-                },
+            LocalSecondaryIndexes=[
                 {
                     'IndexName': 'status-date',
                     'KeySchema': [
@@ -64,23 +44,21 @@ def create_table(table_name, partition_key, sort_key, dynamodb=None):
                             'AttributeName': partition_key, 'KeyType': 'HASH'
                         },
                         {
-                            'AttributeName': 'gsi2sk', 'KeyType': 'RANGE'
+                            'AttributeName': 'status_date', 'KeyType': 'RANGE'
                         }
                     ],
                     'Projection': {
                         'ProjectionType': 'INCLUDE',
                         'NonKeyAttributes': ['quantity', 'price', 'status', 'product_name', 'date']
-                    },
-                    'ProvisionedThroughput': {
-                        'ReadCapacityUnits': 5,
-                        'WriteCapacityUnits': 10
                     }
-                },
+                }
+            ],
+            GlobalSecondaryIndexes=[
                 {
                     'IndexName': 'inverted-status-date',
                     'KeySchema': [
                         {
-                            'AttributeName': 'gsi2sk', 'KeyType': 'HASH'
+                            'AttributeName': 'status_date', 'KeyType': 'HASH'
                         },
                         {
                             'AttributeName': partition_key, 'KeyType': 'RANGE'
