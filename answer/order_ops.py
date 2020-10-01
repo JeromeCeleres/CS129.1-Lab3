@@ -66,6 +66,27 @@ def query_order_items(order_id):
     )
     return response['Items']
     
+# def query_order_by_status_date(status, date):
+#     dynamodb = boto3.resource('dynamodb')
+#     table = dynamodb.Table('users-orders-items')
+
+#     response = table.query(
+#         IndexName='inverted-status-date',
+#         KeyConditionExpression=Key('pk').eq('#STATUS#{0}#DATE#{0}'.format(status, date)) &
+#                               Key('sk').begins_with('#ORDER#')
+#     )
+#     return response['Items']
+
+def query_order_all_pending():
+    dynamodb = boto3.resource('dynamodb')
+    table = dynamodb.Table('users-orders-items')
+
+    response = table.query(
+        IndexName='inverted-status-date',
+        KeyConditionExpression=Key('pk').eq('#STATUS#Pending') &
+                              Key('sk').begins_with('#ORDER#')
+    )
+    return response['Items']
     
 # TEST DELETE LATER    
 if __name__ == '__main__':
