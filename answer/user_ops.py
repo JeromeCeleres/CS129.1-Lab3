@@ -45,6 +45,7 @@ def query_user_profile(username):
     )
     return response['Items']
     
+# TEST DELETE LATER
 if __name__ == '__main__':
     # create_user("loyd98", 'Johh Loyd de Troz', 'john@gmail.com')
     # add_address('loyd98', 'home', '319 Katipunan Avenue')
